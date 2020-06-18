@@ -1,7 +1,16 @@
 const express = require('express');
 const app = express();
-const port = 3000;
+const morgan = require('morgan');
 
-app.get('/users', (req, res) => res.send('Hello World!'));
+const port = 3001;
+
+let users = [
+  { id: 1, name: 'alice' },
+  { id: 1, name: 'alice' },
+  { id: 1, name: 'alice' }
+];
+
+app.use(morgan('dev'));
+app.get('/users', (req, res) => res.json(users));
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));

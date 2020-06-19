@@ -14,13 +14,21 @@ app.use(morgan('dev'));
 app.get('/users', (req, res) => {
   req.query.limit = req.query.limit || 10;
   let limit = Number(req.query.limit);
-  console.log(typeof limit);
 
-  if (isNaN(limit) || typeof limit !== 'number') {
+  if (isNaN(limit)) {
     return res.status(400).end();
   }
 
   res.json(users.slice(0, limit));
+});
+
+app.get('/users/:id', (req, res) => {
+  let id = Number(req.params.id);
+
+  if (isNaN(id)) res.status(400).end();
+  let user = users.filter(e => e.id === id)[0];
+  if (!user) return res.status(404).end();
+  res.json(user);
 });
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));

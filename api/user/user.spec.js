@@ -9,7 +9,6 @@ describe('GET /users는', () => {
         .get('/users')
         .end((err, res) => {
           res.body.should.be.instanceOf(Array);
-          console.log(res.body);
           done();
         });
     });

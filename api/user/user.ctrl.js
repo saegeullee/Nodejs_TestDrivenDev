@@ -52,7 +52,6 @@ const update = function(req, res) {
   let id = Number(req.params.id);
   let name = req.body.name;
 
-  console.log(users);
   let userByName = users.filter(e => e.name === name)[0];
   if (userByName) return res.status(409).end();
 

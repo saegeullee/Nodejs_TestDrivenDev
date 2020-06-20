@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha api/user/user.spec.js",
-    "start": "nodemon index.js"
+    "test": "NODE_ENV=test mocha api/user/user.spec.js",
+    "start": "nodemon bin/www.js"
   },
   "keywords": [],
   "author": "",

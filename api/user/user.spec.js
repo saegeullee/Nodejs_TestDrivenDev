@@ -1,9 +1,22 @@
 const request = require('supertest');
 const should = require('should');
 const app = require('../../');
+const models = require('../../models');
+
+/**
+ * 많은 테스트 중에 it.only('...') 를 해주면 해당 테스트만 실행된다.
+ */
 
 describe('GET /users는', () => {
   describe('성공시', () => {
+    let users = [
+      { id: 1, name: 'alice' },
+      { id: 2, name: 'bek' },
+      { id: 3, name: 'chris' }
+    ];
+    before(() => models.sequelize.sync({ force: true }));
+    before(() => models.User.bulkCreate(users));
+
     it('user 객체를 담은 배열로 응답한다.', done => {
       request(app)
         .get('/users')
@@ -63,6 +76,13 @@ describe('GET /users/1는', () => {
 
 describe('DELETE /users/1는', () => {
   describe('성공시', () => {
+    let users = [
+      { id: 1, name: 'alice' },
+      { id: 2, name: 'bek' },
+      { id: 3, name: 'chris' }
+    ];
+    before(() => models.sequelize.sync({ force: true }));
+    before(() => models.User.bulkCreate(users));
     it('204를 응답한다', done => {
       request(app)
         .delete('/users/1')
@@ -82,10 +102,9 @@ describe('DELETE /users/1는', () => {
 });
 
 describe('POST /users는', () => {
+  let name = 'hyuna';
+  let body;
   describe('성공시', () => {
-    let name = 'daniel';
-    let body;
-
     before(done => {
       request(app)
         .post('/users')
@@ -119,7 +138,7 @@ describe('POST /users는', () => {
     it('name이 중복일 경우 409를 반환한다.', done => {
       request(app)
         .post('/users')
-        .send({ name: 'hyuna' })
+        .send({ name })
         .expect(409)
         .end(done);
     });
